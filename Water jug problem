@@ -1,0 +1,48 @@
+from collections import deque
+
+# Initialize variables
+jug1_capacity = 4  # Capacity of Jug1
+jug2_capacity = 3  # Capacity of Jug2
+target = 2         # Target amount of water
+visited = set()    # To track visited states
+solution_found = False
+
+# BFS setup
+queue = deque([(0, 0)])  # Start with both jugs empty
+
+# Perform BFS
+while queue:
+    jug1, jug2 = queue.popleft()
+
+    # Print the current state
+    print(f"Jug1: {jug1}, Jug2: {jug2}")
+
+    # Check if we've reached the target
+    if jug1 == target or jug2 == target:
+        print(f"Solution found! Jug1: {jug1}, Jug2: {jug2}")
+        solution_found = True
+        break
+
+    # Skip if this state is already visited
+    if (jug1, jug2) in visited:
+        continue
+    visited.add((jug1, jug2))
+
+    # Generate all possible next states
+    next_states = [
+        (jug1_capacity, jug2),                # Fill Jug1
+        (jug1, jug2_capacity),                # Fill Jug2
+        (0, jug2),                            # Empty Jug1
+        (jug1, 0),                            # Empty Jug2
+        (max(0, jug1 - (jug2_capacity - jug2)), min(jug2_capacity, jug1 + jug2)),  # Pour Jug1 -> Jug2
+        (min(jug1_capacity, jug1 + jug2), max(0, jug2 - (jug1_capacity - jug1)))   # Pour Jug2 -> Jug1
+    ]
+
+    # Add all valid states to the queue
+    for state in next_states:
+        if state not in visited:
+            queue.append(state)
+
+# If no solution is found
+if not solution_found:
+    print("No solution exists.")
