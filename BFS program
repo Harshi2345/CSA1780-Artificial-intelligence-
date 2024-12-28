@@ -1,0 +1,64 @@
+from collections import deque
+
+def bfs(graph, start, goal):
+    """
+    Perform BFS on the graph to find the shortest path from start to goal.
+
+    Parameters:
+        graph (dict): Adjacency list representation of the graph.
+        start (str): Starting node.
+        goal (str): Goal node.
+
+    Returns:
+        list: The path from start to goal if found, otherwise an empty list.
+    """
+    # Queue to maintain nodes to visit, initialized with the start node
+    queue = deque([[start]])
+    # Set to keep track of visited nodes
+    visited = set()
+
+    while queue:
+        # Dequeue the first path from the queue
+        path = queue.popleft()
+        # Get the last node from the path
+        node = path[-1]
+
+        # If the node is the goal, return the path
+        if node == goal:
+            return path
+
+        # If the node has not been visited
+        if node not in visited:
+            # Mark it as visited
+            visited.add(node)
+
+            # Enqueue paths to all unvisited neighbors
+            for neighbor in graph.get(node, []):
+                new_path = list(path)
+                new_path.append(neighbor)
+                queue.append(new_path)
+
+    # Return an empty list if the goal is not found
+    return []
+
+# Example usage
+if __name__ == "__main__":
+    # Graph represented as an adjacency list
+    graph = {
+        'A': ['B', 'C'],
+        'B': ['D', 'E'],
+        'C': ['F', 'G'],
+        'D': [],
+        'E': [],
+        'F': [],
+        'G': []
+    }
+
+    start_node = 'A'
+    goal_node = 'F'
+    path = bfs(graph, start_node, goal_node)
+
+    if path:
+        print(f"Path from {start_node} to {goal_node}: {' -> '.join(path)}")
+    else:
+        print(f"No path found from {start_node} to {goal_node}.")
