@@ -1,0 +1,22 @@
+from itertools import permutations
+
+# Define the letters involved in the equation
+letters = 'SENDMORY'
+
+# Generate all possible permutations of the digits 0-9 for the letters
+for perm in permutations(range(10), len(letters)):
+    # Create a dictionary to map each letter to a digit
+    letter_to_digit = dict(zip(letters, perm))
+    
+    # Check the arithmetic equation: SEND + MORE = MONEY
+    SEND = letter_to_digit['S'] * 1000 + letter_to_digit['E'] * 100 + letter_to_digit['N'] * 10 + letter_to_digit['D']
+    MORE = letter_to_digit['M'] * 1000 + letter_to_digit['O'] * 100 + letter_to_digit['R'] * 10 + letter_to_digit['E']
+    MONEY = letter_to_digit['M'] * 10000 + letter_to_digit['O'] * 1000 + letter_to_digit['N'] * 100 + letter_to_digit['E'] * 10 + letter_to_digit['Y']
+    
+    # Check if the equation holds true
+    if SEND + MORE == MONEY:
+        # If the equation is true, print the result
+        print(f"SEND = {SEND}, MORE = {MORE}, MONEY = {MONEY}")
+        print("Solution found!")
+        print(f"Letter to digit mapping: {letter_to_digit}")
+        break
