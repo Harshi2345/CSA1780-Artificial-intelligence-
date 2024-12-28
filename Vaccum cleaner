@@ -1,0 +1,54 @@
+# Initialize the environment
+grid = [
+    [1, 0, 1],  # 1 represents a dirty cell, 0 represents a clean cell
+    [1, 1, 0],
+    [0, 1, 1]
+]
+
+rows = len(grid)
+cols = len(grid[0])
+
+# Starting position of the vacuum cleaner
+vacuum_x, vacuum_y = 0, 0  # Top-left corner
+path = [(vacuum_x, vacuum_y)]  # Track the path of the vacuum cleaner
+
+# Clean the initial position
+grid[vacuum_x][vacuum_y] = 0
+
+# Directions: right, down, left, up
+directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+
+# Check if there are any dirty cells left
+while any(1 in row for row in grid):
+    moved = False
+    for dx, dy in directions:
+        new_x, new_y = vacuum_x + dx, vacuum_y + dy
+
+        # Check if the new position is within bounds and dirty
+        if 0 <= new_x < rows and 0 <= new_y < cols and grid[new_x][new_y] == 1:
+            # Move the vacuum cleaner to the new position
+            vacuum_x, vacuum_y = new_x, new_y
+            path.append((vacuum_x, vacuum_y))
+
+            # Clean the cell
+            grid[vacuum_x][vacuum_y] = 0
+            moved = True
+            break
+
+    # If no adjacent dirty cells, move to the next unvisited dirty cell
+    if not moved:
+        for x in range(rows):
+            for y in range(cols):
+                if grid[x][y] == 1:
+                    vacuum_x, vacuum_y = x, y
+                    path.append((vacuum_x, vacuum_y))
+                    grid[vacuum_x][vacuum_y] = 0
+                    break
+
+# Print the final cleaned grid and the path
+print("Cleaned grid:")
+for row in grid:
+    print(row)
+
+print("\nPath taken by the vacuum cleaner:")
+print(path)
