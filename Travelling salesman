@@ -1,0 +1,21 @@
+from itertools import permutations
+
+def calculate_distance(route, distance_matrix):
+    return sum(distance_matrix[route[i]][route[i + 1]] for i in range(len(route) - 1)) + distance_matrix[route[-1]][route[0]]
+
+def travelling_salesman_problem(distance_matrix):
+    cities = range(len(distance_matrix))
+    shortest_route = min(permutations(cities), key=lambda route: calculate_distance(route, distance_matrix))
+    shortest_distance = calculate_distance(shortest_route, distance_matrix)
+    return shortest_route, shortest_distance
+
+distance_matrix = [
+    [0, 10, 15, 20],
+    [10, 0, 35, 25],
+    [15, 35, 0, 30],
+    [20, 25, 30, 0]
+]
+
+route, distance = travelling_salesman_problem(distance_matrix)
+print("Shortest route:", route)
+print("Shortest distance:", distance)
