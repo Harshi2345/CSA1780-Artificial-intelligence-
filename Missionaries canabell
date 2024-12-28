@@ -1,0 +1,54 @@
+from collections import deque
+
+# Initial state: (missionaries on the left, cannibals on the left, boat position)
+# boat_position: 0 means boat is on the left, 1 means boat is on the right
+initial_state = (3, 3, 0)
+goal_state = (0, 0, 1)
+visited = set()  # To track visited states
+queue = deque([(initial_state, [])])  # Queue to perform BFS with the state and the path taken
+visited.add(initial_state)
+
+# Define all possible moves: (missionaries moved, cannibals moved)
+moves = [
+    (1, 0),  # 1 missionary
+    (0, 1),  # 1 cannibal
+    (2, 0),  # 2 missionaries
+    (0, 2),  # 2 cannibals
+    (1, 1)   # 1 missionary, 1 cannibal
+]
+
+while queue:
+    (m_left, c_left, boat_position), path = queue.popleft()
+
+    # If we've reached the goal state, print the path
+    if (m_left, c_left, boat_position) == goal_state:
+        print("Solution found!")
+        print("Path:", path)
+        break
+
+    # Explore possible moves
+    for m_move, c_move in moves:
+        # If boat is on the left side (0), move people from left to right
+        if boat_position == 0:
+            m_new_left = m_left - m_move
+            c_new_left = c_left - c_move
+            m_new_right = 3 - m_new_left
+            c_new_right = 3 - c_new_left
+        # If boat is on the right side (1), move people from right to left
+        else:
+            m_new_right = m_left + m_move
+            c_new_right = c_left + c_move
+            m_new_left = 3 - m_new_right
+            c_new_left = 3 - c_new_right
+
+        # Check if the move is valid (no negative people, and never more cannibals than missionaries)
+        if m_new_left >= 0 and c_new_left >= 0 and m_new_right >= 0 and c_new_right >= 0:
+            if (m_new_left == 0 or m_new_left >= c_new_left) and (m_new_right == 0 or m_new_right >= c_new_right):
+                new_state = (m_new_left, c_new_left, 1 - boat_position)  # Flip the boat position
+                if new_state not in visited:
+                    visited.add(new_state)
+                    queue.append((new_state, path + [(m_move, c_move)]))  # Add the new state and path
+
+# If no solution is found
+else:
+    print("No solution exists.")
