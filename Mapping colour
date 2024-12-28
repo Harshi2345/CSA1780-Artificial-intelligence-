@@ -1,0 +1,31 @@
+def is_valid(assignment, csp, var, value):
+    for neighbor in csp[var]:
+        if neighbor in assignment and assignment[neighbor] == value:
+            return False
+    return True
+
+def backtracking_search(csp, assignment={}):
+    if len(assignment) == len(csp):
+        return assignment
+
+    var = next(v for v in csp if v not in assignment)
+    for value in ["Red", "Green", "Blue"]:
+        if is_valid(assignment, csp, var, value):
+            assignment[var] = value
+            result = backtracking_search(csp, assignment)
+            if result:
+                return result
+            del assignment[var]
+
+    return None
+
+csp = {
+    "WA": ["NT", "SA"],
+    "NT": ["WA", "SA", "Q"],
+    "SA": ["WA", "NT", "Q", "NSW", "V"],
+    "Q": ["NT", "SA", "NSW"],
+    "NSW": ["Q", "SA", "V"],
+    "V": ["SA", "NSW"]
+}
+solution = backtracking_search(csp)
+print("Solution:", solution)
