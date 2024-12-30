@@ -1,0 +1,15 @@
+% Base case: move 1 disc directly from source to destination
+hanoi(1, Source, Destination, _) :-
+    write('Move disc from '),
+    write(Source),
+    write(' to '),
+    write(Destination),
+    nl.
+
+% Recursive case: move N discs using auxiliary peg
+hanoi(N, Source, Destination, Auxiliary) :-
+    N > 1,
+    M is N - 1,
+    hanoi(M, Source, Auxiliary, Destination),
+    hanoi(1, Source, Destination, _),
+    hanoi(M, Auxiliary, Destination, Source).
