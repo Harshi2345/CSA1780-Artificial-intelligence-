@@ -1,0 +1,9 @@
+% Facts storing student, teacher, and subject code
+student_teacher_subject(john, mr_smith, math101).
+student_teacher_subject(mary, ms_jones, bio202).
+student_teacher_subject(alex, mr_white, chem303).
+student_teacher_subject(susan, ms_brown, eng404).
+
+% Query to find the teacher and subject code for a student
+student_info(Student, Teacher, SubjectCode) :-
+    student_teacher_subject(Student, Teacher, SubjectCode).
