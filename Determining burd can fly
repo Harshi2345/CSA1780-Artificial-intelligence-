@@ -1,0 +1,17 @@
+% Facts about birds and their flying ability
+bird(sparrow).
+bird(eagle).
+bird(penguin).
+bird(ostrich).
+
+can_fly(sparrow).
+can_fly(eagle).
+
+% Rule to check if a bird can fly
+bird_can_fly(Bird) :-
+    bird(Bird),
+    can_fly(Bird).
+
+bird_cannot_fly(Bird) :-
+    bird(Bird),
+    \+ can_fly(Bird).
