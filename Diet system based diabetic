@@ -1,0 +1,8 @@
+% Facts about diseases and recommended diets
+diet(diabetes, 'low sugar diet').
+diet(hypertension, 'low salt diet').
+diet(obesity, 'low calorie diet').
+
+% Rule to suggest diet based on disease
+suggest_diet(Disease, Diet) :-
+    diet(Disease, Diet).
