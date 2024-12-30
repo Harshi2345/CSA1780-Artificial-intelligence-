@@ -1,0 +1,9 @@
+% Facts storing name and date of birth
+person(john, '1990-01-01').
+person(mary, '1985-05-12').
+person(alex, '2000-11-30').
+person(susan, '1975-07-25').
+
+% Query to find a person's date of birth
+dob(Name, DOB) :-
+    person(Name, DOB).
