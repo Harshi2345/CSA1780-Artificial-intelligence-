@@ -1,0 +1,19 @@
+% Define the initial state and goal state
+initial(state(at_door, on_floor, at_door, has_not)).
+goal(state(_, _, _, has)).
+
+% Define the actions that the monkey can take
+move(state(middle, on_box, middle, has_not), grasp, state(middle, on_box, middle, has)).
+move(state(P, on_floor, P, H), climb, state(P, on_box, P, H)).
+move(state(P1, on_floor, P1, H), push(P1, P2), state(P2, on_floor, P2, H)).
+move(state(P1, on_floor, B, H), walk(P1, P2), state(P2, on_floor, B, H)).
+
+% Define a recursive function to find a plan
+plan(State, _, []) :- goal(State).
+plan(State1, Visited, [Action|Plan]) :-
+    move(State1, Action, State2),
+    \+ member(State2, Visited),
+    plan(State2, [State2|Visited], Plan).
+
+% Find a plan from the initial state
+find_plan(Plan) :- initial(State), plan(State, [State], Plan).
