@@ -1,0 +1,13 @@
+% Facts storing planet information
+planet(mercury, 0.39).
+planet(venus, 0.72).
+planet(earth, 1).
+planet(mars, 1.52).
+planet(jupiter, 5.2).
+planet(saturn, 9.58).
+planet(uranus, 19.2).
+planet(neptune, 30.05).
+
+% Query to find the distance of a planet from the sun
+distance_from_sun(Planet, Distance) :-
+    planet(Planet, Distance).
