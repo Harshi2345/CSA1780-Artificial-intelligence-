@@ -1,0 +1,15 @@
+% Facts
+likes(mary, wine).
+likes(john, beer).
+likes(mary, cheese).
+likes(john, pizza).
+
+% Rule for backward chaining
+happy(Person) :- likes(Person, wine), likes(Person, cheese).
+
+% Queries
+% ?- happy(mary).
+% true.
+
+% ?- happy(john).
+% false.
