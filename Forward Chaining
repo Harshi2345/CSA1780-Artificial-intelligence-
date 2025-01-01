@@ -1,0 +1,16 @@
+% Facts
+animal(fish).
+animal(bird).
+has(gills, fish).
+has(wings, bird).
+
+% Rule for forward chaining
+can_swim(Animal) :- has(gills, Animal).
+can_fly(Animal) :- has(wings, Animal).
+
+% Queries
+% ?- can_swim(fish).
+% true.
+
+% ?- can_fly(bird).
+% true.
