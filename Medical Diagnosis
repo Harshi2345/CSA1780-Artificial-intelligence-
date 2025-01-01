@@ -1,0 +1,21 @@
+% Facts
+symptom(john, fever).
+symptom(john, cough).
+symptom(jane, headache).
+symptom(jane, fatigue).
+
+% Rules for diagnosis
+disease(john, flu) :-
+    symptom(john, fever),
+    symptom(john, cough).
+
+disease(jane, migraine) :-
+    symptom(jane, headache),
+    symptom(jane, fatigue).
+
+% Query examples
+% ?- disease(john, Disease).
+% Disease = flu.
+
+% ?- disease(jane, Disease).
+% Disease = migraine.
