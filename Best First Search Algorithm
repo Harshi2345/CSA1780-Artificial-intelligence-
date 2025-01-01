@@ -1,0 +1,36 @@
+% Define the graph with nodes and edges
+edge(a, b, 1).
+edge(a, c, 3).
+edge(b, d, 2).
+edge(c, d, 4).
+edge(d, e, 1).
+
+% Heuristic values for nodes
+heuristic(a, 5).
+heuristic(b, 3).
+heuristic(c, 2).
+heuristic(d, 0).
+heuristic(e, 6).
+
+% Best First Search algorithm
+best_first_search(Start, Goal, Path) :-
+    bfs([Start], Goal, [Start], Path).
+
+bfs([Goal|Visited], Goal, _, [Goal|Visited]).
+bfs([Current|Visited], Goal, Seen, Path) :-
+    findall(Next, (edge(Current, Next, _), \+ member(Next, Seen)), Neighbors),
+    sort_by_heuristic(Neighbors, SortedNeighbors),
+    append(SortedNeighbors, Visited, NewQueue),
+    bfs(NewQueue, Goal, [Current|Seen], Path).
+
+% Sorting by heuristic values
+sort_by_heuristic(Neighbors, SortedNeighbors) :-
+    maplist(get_heuristic, Neighbors, Pairs),
+    keysort(Pairs, SortedPairs),
+    pairs_values(SortedPairs, SortedNeighbors).
+
+get_heuristic(Node, H-Node) :- heuristic(Node, H).
+
+% Query example
+% ?- best_first_search(a, d, Path).
+% Path = [a, b, d].
